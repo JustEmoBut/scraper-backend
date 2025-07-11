@@ -7,7 +7,7 @@ Thank you for your interest in contributing to the TechPrice Scraper API! This d
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/JustEmoBut/scraper-api-backend.git
+   git clone https://github.com/JustEmoBut/scraper-backend.git
    cd scraper-api-backend
    ```
 3. **Install dependencies**:

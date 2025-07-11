@@ -50,12 +50,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JustEmoBut/scraper-api-backend"
+    "url": "https://github.com/JustEmoBut/scraper-backend"
   },
   "author": "Just Emo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JustEmoBut/scraper-api-backend/issues"
+    "url": "https://github.com/JustEmoBut/scraper-backend/issues"
   },
-  "homepage": "https://github.com/JustEmoBut/scraper-api-backend#readme"
+  "homepage": "https://github.com/JustEmoBut/scraper-backend#readme"
 }
