@@ -38,8 +38,8 @@ A powerful e-commerce product scraping and price tracking system with a RESTful 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/JustEmoBut/scraper-api-backend.git
-cd scraper-api-backend
+git clone https://github.com/JustEmoBut/scraper-backend.git
+cd scraper-backend
 ```
 
 ### 2. Install Node.js Dependencies
