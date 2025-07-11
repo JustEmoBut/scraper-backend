@@ -1,0 +1,28 @@
+{
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60
+    },
+    "api/auth.js": {
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/auth/(.*)",
+      "destination": "/api/auth.js"
+    },
+    {
+      "source": "/admin",
+      "destination": "/public/index.html"
+    },
+    {
+      "source": "/api$",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    }
+  ]
+}

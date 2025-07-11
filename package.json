@@ -1,0 +1,61 @@
+{
+  "name": "stealth-multisite-scraper-api",
+  "version": "6.0.0",
+  "description": "Advanced multi-site web scraper with Python Camoufox enhanced stealth, JWT authentication, and comprehensive product specification management system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "check:data": "node scripts/data-recovery-check.js",
+    "health": "node scripts/quick-health-check.js",
+    "debug:all": "node scripts/debug-all-data.js",
+    "debug:mapping": "node scripts/debug-category-mapping.js",
+    "fix:mapping": "node scripts/fix-category-mapping.js",
+    "restore:all": "node scripts/restore-all-data.js",
+    "fix:all": "node scripts/fix-all-duplicates.js",
+    "reset:database": "node scripts/reset-database.js",
+    "reset:site": "node scripts/reset-site.js",
+    "reset:products": "node scripts/reset-products-only.js"
+  },
+  "keywords": [
+    "web-scraping",
+    "stealth-scraping",
+    "anti-detection",
+    "camoufox",
+    "python-scraper",
+    "e-commerce",
+    "price-tracking",
+    "bot-detection-evasion",
+    "jwt-authentication",
+    "product-specifications",
+    "technical-specs",
+    "admin-panel",
+    "mongodb",
+    "express-api"
+  ],
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JustEmoBut/scraper-api-backend"
+  },
+  "author": "Just Emo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JustEmoBut/scraper-api-backend/issues"
+  },
+  "homepage": "https://github.com/JustEmoBut/scraper-api-backend#readme"
+}
