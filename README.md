@@ -104,6 +104,7 @@ python run_scraper.py scrape-all
 - API Base URL: `http://localhost:3000/api`
 - Admin Panel: `http://localhost:3000`
 - API Documentation: Check `/api/stats` for available endpoints
+- **First-time Setup**: Visit the admin panel to create your first admin account (localhost only)
 
 ## 📚 API Usage
 
@@ -130,6 +131,13 @@ curl http://localhost:3000/api/stats
 ```
 
 ### Protected Endpoints (Admin)
+
+#### Register (Localhost Only)
+```bash
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"your_password","email":"admin@example.com"}'
+```
 
 #### Login
 ```bash
@@ -198,6 +206,7 @@ python run_scraper.py stats                    # Database statistics
 - bcrypt password hashing
 - Role-based access control (admin/super_admin)
 - Manual login required (no auto-login for security)
+- **Localhost Registration**: New admin accounts can be created from localhost for initial setup
 
 ### Environment Variables
 All sensitive data is externalized to environment variables:
@@ -273,6 +282,7 @@ ALLOWED_ORIGINS=https://yourdomain.com
 - Ensure `JWT_SECRET` is set and secure
 - Check token expiration (default 24h)
 - Verify admin user exists in database
+- **First-time Setup**: If no admin users exist, create one using the localhost registration feature
 
 ### Getting Help
 - Check the API health: `GET /api/test-connection`
