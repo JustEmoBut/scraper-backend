@@ -223,11 +223,25 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-// Register endpoint (for first admin user)
+// Helper function to check if request is from localhost
+const isLocalhost = (req) => {
+    const host = req.headers.host || req.headers['x-forwarded-host'] || '';
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || '';
+    
+    return host.includes('localhost') || 
+           host.includes('127.0.0.1') || 
+           ip.includes('127.0.0.1') || 
+           ip.includes('::1') ||
+           process.env.NODE_ENV === 'development';
+};
+
+// Register endpoint (for first admin user or localhost)
 app.post('/api/auth/register', async (req, res) => {
     try {
         console.log('Register attempt started');
         console.log('Request body:', req.body);
+        console.log('Request host:', req.headers.host);
+        console.log('Request IP:', req.headers['x-forwarded-for'] || req.connection.remoteAddress);
         
         // Ensure database connection first
         console.log('Ensuring database connection...');
@@ -259,13 +273,20 @@ app.post('/api/auth/register', async (req, res) => {
         const userCount = await AdminUser.countDocuments();
         console.log('User count:', userCount);
         const isFirstUser = userCount === 0;
+        const isFromLocalhost = isLocalhost(req);
+        
+        console.log('Is first user:', isFirstUser);
+        console.log('Is from localhost:', isFromLocalhost);
 
-        // If not first user and no authenticated user, deny
-        if (!isFirstUser && !req.user) {
+        // Allow registration if:
+        // 1. This is the first user, OR
+        // 2. Request is from localhost, OR
+        // 3. User is authenticated and is super admin
+        if (!isFirstUser && !isFromLocalhost && !req.user) {
             console.log('Registration closed error');
             return res.status(403).json({
                 success: false,
-                error: 'Registration not allowed',
+                error: 'Registration only allowed from localhost or for first user',
                 code: 'REGISTRATION_CLOSED'
             });
         }

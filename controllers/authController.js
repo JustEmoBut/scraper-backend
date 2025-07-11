@@ -69,7 +69,19 @@ const login = async (req, res) => {
     }
 };
 
-// Admin kullanıcı oluşturma (sadece super admin veya ilk kullanıcı için)
+// Helper function to check if request is from localhost
+const isLocalhost = (req) => {
+    const host = req.headers.host || req.headers['x-forwarded-host'] || '';
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || '';
+    
+    return host.includes('localhost') || 
+           host.includes('127.0.0.1') || 
+           ip.includes('127.0.0.1') || 
+           ip.includes('::1') ||
+           process.env.NODE_ENV === 'development';
+};
+
+// Admin kullanıcı oluşturma (sadece super admin, ilk kullanıcı veya localhost için)
 const createAdmin = async (req, res) => {
     try {
         const { username, password, email, role = 'admin' } = req.body;
@@ -94,12 +106,16 @@ const createAdmin = async (req, res) => {
         // İlk kullanıcı mı kontrol et
         const userCount = await AdminUser.countDocuments();
         const isFirstUser = userCount === 0;
+        const isFromLocalhost = isLocalhost(req);
 
-        // İlk kullanıcı değilse ve mevcut kullanıcı super admin değilse engelle
-        if (!isFirstUser && (!req.user || req.user.role !== 'super_admin')) {
+        // Allow registration if:
+        // 1. This is the first user, OR
+        // 2. Request is from localhost, OR
+        // 3. User is authenticated and is super admin
+        if (!isFirstUser && !isFromLocalhost && (!req.user || req.user.role !== 'super_admin')) {
             return res.status(403).json({
                 success: false,
-                error: 'Only super admin can create new users',
+                error: 'Registration only allowed from localhost or for first user',
                 code: 'INSUFFICIENT_PERMISSIONS'
             });
         }

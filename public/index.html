@@ -1337,8 +1337,73 @@
                 <i class="fas fa-unlock"></i> Giriş Yap
             </button>
             
+            <!-- Localhost registration link -->
+            <div id="localhostRegisterLink" style="display: none; text-align: center; margin-bottom: 0.75rem;">
+                <button onclick="showRegisterForm()" class="btn" style="width: 100%; padding: 0.5rem; font-size: 0.8rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none;">
+                    <i class="fas fa-user-plus"></i> Yeni Hesap Oluştur
+                </button>
+            </div>
+            
             <div style="text-align: center;">
                 <small style="color: #94a3b8; font-size: 0.75rem;">Admin hesabınızla giriş yapın</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal (Localhost only) -->
+    <div id="registerModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px; padding: 1.5rem;">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <div style="font-size: 2rem; margin-bottom: 0.75rem;">👤</div>
+                <h2 style="color: #f1f5f9; margin-bottom: 0.5rem; font-size: 1.25rem;">Yeni Admin Hesabı</h2>
+                <p style="color: #94a3b8; font-size: 0.8rem;">Localhost'ta yeni hesap oluşturun</p>
+            </div>
+            
+            <div style="margin-bottom: 0.75rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #e2e8f0; font-weight: 500; font-size: 0.85rem;">Kullanıcı Adı:</label>
+                <input type="text" id="registerUsername" class="search-input" placeholder="Kullanıcı adınızı girin..." style="padding: 0.75rem; font-size: 0.9rem;">
+            </div>
+            
+            <div style="margin-bottom: 0.75rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #e2e8f0; font-weight: 500; font-size: 0.85rem;">E-posta (İsteğe Bağlı):</label>
+                <input type="email" id="registerEmail" class="search-input" placeholder="E-posta adresinizi girin..." style="padding: 0.75rem; font-size: 0.9rem;">
+            </div>
+            
+            <div style="margin-bottom: 0.75rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #e2e8f0; font-weight: 500; font-size: 0.85rem;">Şifre:</label>
+                <div style="position: relative;">
+                    <input type="password" id="registerPassword" class="search-input" placeholder="Şifrenizi girin (min 8 karakter)..." style="padding: 0.75rem; font-size: 0.9rem;">
+                    <button type="button" onclick="togglePasswordVisibility('registerPassword')" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 0.85rem;">
+                        <i id="registerPasswordIcon" class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #e2e8f0; font-weight: 500; font-size: 0.85rem;">Şifre Tekrar:</label>
+                <div style="position: relative;">
+                    <input type="password" id="registerPasswordConfirm" class="search-input" placeholder="Şifrenizi tekrar girin..." style="padding: 0.75rem; font-size: 0.9rem;">
+                    <button type="button" onclick="togglePasswordVisibility('registerPasswordConfirm')" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 0.85rem;">
+                        <i id="registerPasswordConfirmIcon" class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="registerError" style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #f87171; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.75rem; text-align: center; font-size: 0.85rem;">
+                Hata mesajı burada görünecek
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+                <button onclick="hideRegisterForm()" class="btn" style="flex: 1; padding: 0.75rem; font-size: 0.9rem; background: #374151; color: white; border: none;">
+                    <i class="fas fa-arrow-left"></i> Geri
+                </button>
+                <button onclick="registerAdmin()" class="btn btn-primary" style="flex: 1; padding: 0.75rem; font-size: 0.9rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <i class="fas fa-user-plus"></i> Hesap Oluştur
+                </button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <small style="color: #94a3b8; font-size: 0.75rem;">Bu özellik sadece localhost'ta kullanılabilir</small>
             </div>
         </div>
     </div>
@@ -2053,6 +2118,95 @@
             }, 5000);
         }
 
+        function showRegisterError(message) {
+            const errorDiv = document.getElementById('registerError');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Check if running on localhost and show register link
+        function checkLocalhostAndShowRegisterLink() {
+            const hostname = window.location.hostname;
+            const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+            
+            if (isLocalhost) {
+                document.getElementById('localhostRegisterLink').style.display = 'block';
+            }
+        }
+
+        // Show register form
+        function showRegisterForm() {
+            document.getElementById('authModal').style.display = 'none';
+            document.getElementById('registerModal').style.display = 'block';
+        }
+
+        // Hide register form
+        function hideRegisterForm() {
+            document.getElementById('registerModal').style.display = 'none';
+            document.getElementById('authModal').style.display = 'block';
+        }
+
+        // Register admin user
+        async function registerAdmin() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+            
+            // Validation
+            if (!username || !password) {
+                showRegisterError('Kullanıcı adı ve şifre gerekli!');
+                return;
+            }
+
+            if (password.length < 8) {
+                showRegisterError('Şifre en az 8 karakter olmalıdır!');
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                showRegisterError('Şifreler eşleşmiyor!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${baseURL}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        email: email || undefined
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('success', 'Hesap başarıyla oluşturuldu! Şimdi giriş yapabilirsiniz.');
+                    
+                    // Clear form
+                    document.getElementById('registerUsername').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPassword').value = '';
+                    document.getElementById('registerPasswordConfirm').value = '';
+                    
+                    // Return to login form
+                    hideRegisterForm();
+                } else {
+                    showRegisterError(data.error || 'Hesap oluşturulamadı!');
+                }
+            } catch (error) {
+                showRegisterError('Bağlantı hatası: ' + error.message);
+            }
+        }
+
         // System status check
         async function checkSystemStatus() {
             const dbStatus = document.getElementById('dbStatus');
@@ -2531,6 +2685,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             checkAuthentication();
             initializeAdminInterface();
+            checkLocalhostAndShowRegisterLink();
         });
 
         // Check if user is authenticated and has admin role
