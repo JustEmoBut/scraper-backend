@@ -1,6 +1,6 @@
 # TechPrice Scraper API
 
-> ⚠️ **AI-Generated Project Notice**: This project was developed with AI assistance. While functional, there may be bugs, incomplete features, or areas that need improvement. Contributions and feedback are welcome to help enhance the codebase.
+> ⚠️ **AI-Generated Project Notice**: This project was developed with significant assistance from AI tools (Claude). While functional, there may be edge cases, optimization opportunities, or architectural decisions that could be improved. We welcome community contributions to enhance the codebase. Please review the code thoroughly before using in production environments.
 
 A powerful e-commerce product scraping and price tracking system with a RESTful API, built with Node.js and Python.
 
